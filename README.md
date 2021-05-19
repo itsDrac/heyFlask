@@ -1,3 +1,4 @@
 # HeyFlask
 ---
-In this i created hello world flask app when can make you understand how flask works
+In this commit i have used _`render_trmplate`_ to render html file in flask app 
+and _`url_for`_ to serve static files like : **style.css**
