@@ -13,8 +13,10 @@
         {% for stuff in todos %}
       <div class="card">
           <p class="todo">{{ stuff.todo }}</p>
-          <a href="{{ stuff.id }}" class="btn comp-btn">Complete</a>
-        <a href="{{ stuff.id }}" class="btn del-btn">Delete</a>
+          {% if stuff.todo.is_completed %}
+          <a href="{{ url_for('complete_todo', id=stuff.id) }}" class="btn comp-btn">Complete</a>
+          {% endif %}
+        <a href="{{ url_for('delete_todo', id=stuff.id) }}" class="btn del-btn">Delete</a>
       </div>
       {% else %}
       <h1>
