@@ -23,6 +23,12 @@ def home():
     todos = Todos.query.all()
     return render_template('index.html', todos = todos)
 
+@app.get('/complete/all')
+def complete_all():
+    todos = Todos.query.all()
+    todos = [ t for t in todos if t.is_completed ]
+    return render_template('all.html', todos = todos)
+
 @app.get('/add/complete/<int:id>')
 def complete_todo(id):
     todo = Todos.query.get_or_404(id)
