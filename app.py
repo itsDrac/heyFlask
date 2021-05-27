@@ -1,8 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
+from wtforms import StringField
+from wtforms.validators import DataRequired
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SECRET_KEY'] = 'de166576fad4be0b3f3a1bbc'
 db = SQLAlchemy(app)
 
 
@@ -17,6 +21,8 @@ class Todos(db.Model):
     todo = db.Column(db.String(20), nullable = False)
     is_completed = db.Column(db.Boolean, default = False)
 
+class TodoForm(FlaskForm):
+    todo = StringField('todo', validators=[DataRequired()])
 
 @app.get('/')
 def home():
@@ -45,6 +51,7 @@ def delete_todo(id):
 
 @app.route('/add', methods = ['GET', 'POST'])
 def add():
+    form = TodoForm()
     if request.method == 'POST':
         todo = Todos(todo = request.form.get("todo"))
         db.session.add(todo)
