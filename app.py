@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField
@@ -52,9 +52,9 @@ def delete_todo(id):
 @app.route('/add', methods = ['GET', 'POST'])
 def add():
     form = TodoForm()
-    if request.method == 'POST':
-        todo = Todos(todo = request.form.get("todo"))
+    if form.validate_on_submit():
+        todo = Todos(todo = form.todo.data)
         db.session.add(todo)
         db.session.commit()
         return redirect(url_for('home'))
-    return render_template('add.html')
+    return render_template('add.html', form=form)
